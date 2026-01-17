@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Form</title>
+</head>
+<body>
+
+    <h1>User Registration</h1>
+
+    <form action="/submit_page" method="POST">
+        {% csrf_token %}
+        <label for="fname">First Name:</label>
+        <input type="text" id="fname" name="fname"><br><br>
+        
+        <label for="lname">Last Name:</label>
+        <input type="text" id="lname" name="lname"><br><br>
+
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email"><br><br>
+
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username"><br><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password"><br><br>
+
+        <label for="password">Confirm Password:</label>
+        <input type="password" id="rpassword" name="rpassword"><br><br>
+        
+        <input type="submit" value="Submit">
+    </form>
+
+    {%for message in messages%}
+        <script>
+            {% if message.tags %}
+                window.alert('{{message}}');
+            {%endif%}
+        </script>    
+    {%endfor%}
+    
+    <h5>
+        <a href="/login_user">Login User</a>
+    </h5>
+</body>
+</html>

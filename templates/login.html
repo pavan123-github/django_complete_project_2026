@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Form</title>
+</head>
+<body>
+
+    <h1>User Login</h1>
+
+    <form action="/login_user" method="POST">
+        {% csrf_token %}
+
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username"><br><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password"><br><br>
+        
+        <input type="submit" value="Submit">
+    </form>
+
+    {%for message in messages%}
+        <script>
+            {% if message.tags %}
+                window.alert('{{message}}');
+            {%endif%}
+        </script>    
+    {%endfor%}
+    
+    <h5>
+        <a href="/">User Registration</a>
+    </h5>
+</body>
+</html>

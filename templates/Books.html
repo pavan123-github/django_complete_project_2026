@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Form</title>
+</head>
+<body>
+
+    <h1>Books Details</h1>
+
+    {% if user.is_authenticated%}
+        <h1>Book list</h1>
+    <table border="1px solid" cellspacing="0">
+        <tr>
+            <th>Book Title</th>
+            <th>Publication Date</th>
+            <th>Written By</th>
+        </tr>
+        {% for i in books %}
+        <tr>
+            <td>{{i.title}}</td>
+            <td>{{i.publication_date}}</td>
+            <td>{{i.author.name}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+        <h5>
+            <a href="/logout">Logout User</a>
+        </h5>
+    {% endif %}
+
+    {%for message in messages%}
+        <script>
+            {% if message.tags %}
+                window.alert('{{message}}');
+            {%endif%}
+        </script>    
+    {%endfor%}
+    
+</body>
+</html>
