@@ -1,0 +1,17 @@
+<h1>States</h1>
+{% for states in page_obj %}
+    <p>{{ states.name }}</p>
+    <p>{{ states.state_code }}</p>
+{% endfor %}
+
+<hr>
+
+{% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+{% endif %}
+
+<span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+{% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}">Next</a>
+{% endif %}
