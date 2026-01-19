@@ -18,11 +18,11 @@ from django.contrib import admin
 from django.urls import path,include
 from rest_framework import routers, serializers, viewsets
 from home.viewsets import ProfileViewSet 
-from home.views import CustomeProfilesView   #for customer profiles view 
+from home.views import CustomeProfilesView,BookViewSet   #for customer profiles view 
 
 router = routers.DefaultRouter()
 router.register(r'profiles', ProfileViewSet)
-# router.register(r'all_profiles', CustomeProfilesView)
+router.register(r'books', BookViewSet, basename='books')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

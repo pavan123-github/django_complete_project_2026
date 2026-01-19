@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Form</title>
+    <style>
+    .break-word-paragraph {
+        width: 500px; /* Set a specific width for demonstration */
+        overflow-wrap: break-word;
+        text-align: left
+    }
+    </style>
+</head>
+<body>
+    
+    <h1>User Profile</h1>
+    <table border="1px solid" cellspacing="0">
+        <tbody align='center'>
+            <tr>
+                <th>User</th>
+                <th>Bio</th>
+                <th>Location</th>
+                <th>Date of Birth</th>
+            </tr>
+        {% for i in profile %}
+        <tr>
+            <td>{{i.user.first_name}}</td>
+            <td>
+                <p class="break-word-paragraph"> {{i.bio}} </p>
+            </td>
+            <td>{{i.location}}</td>
+            <td>{{i.birth_data}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {%for message in messages%}
+        <script>
+            {% if message.tags %}
+                window.alert('{{message}}');
+            {%endif%}
+        </script>    
+    {%endfor%}
+    
+</body>
+</html>
