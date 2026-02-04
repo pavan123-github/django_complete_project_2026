@@ -18,15 +18,19 @@ from django.contrib import admin
 from django.urls import path,include
 from rest_framework import routers, serializers, viewsets
 from home.viewsets import ProfileViewSet 
-from home.views import CustomeProfilesView,BookViewSet   #for customer profiles view 
+from home.views import CustomeProfilesView,BookViewSet,SparePartListCreateApiView,SparePartDetailAPIView,VehicalViewSet #for customer profiles view 
 
 router = routers.DefaultRouter()
 router.register(r'profiles', ProfileViewSet)
 router.register(r'books', BookViewSet, basename='books')
+router.register(r'vehicals', VehicalViewSet, basename='vehicals')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
     path('api/', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('spareparts/',SparePartListCreateApiView.as_view()),
+    path('spareparts/<int:id>/', SparePartDetailAPIView.as_view()),
 ]
+

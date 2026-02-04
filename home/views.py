@@ -3,15 +3,16 @@ from django.http import HttpResponse,JsonResponse
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import login,logout,authenticate
-from .models import Author,Book,State,Profile
+from .models import Author,Book,State,Profile,SparePart,Vehical
 from django.core.paginator import Paginator
 from rest_framework.views import APIView       #for customer profiles view
-from .serializer import ProfileSerializer,BookSerializer      #for customer profiles view
+from .serializer import ProfileSerializer,BookSerializer,SparePartSerializer,VehicalSerializer   #for customer profiles view
 from rest_framework.response import Response   #for customer profiles view 
 from django.views import View  #for using class based view 
 from rest_framework.decorators import action  #create custom method inside the class based view
 from rest_framework.viewsets import ViewSet   #create custom method inside the class based view
 from rest_framework import status
+
 
 
 # function based view (FBV)
@@ -66,6 +67,7 @@ def logout_user(request):
     messages.success(request, 'User Loge Out!')
     return render(request,'login.html')
 
+#simple function based view
 def books_detail(request):
     books = Book.objects.all()
     return render(request,'books.html',{'books': books})
@@ -125,3 +127,69 @@ class BookViewSet(ViewSet):      # @action decorator does not work ApiView and V
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+#custom crud apis without using Viewsets 
+# ApIView me routers autometic maped hota hai get,post,put or delete methods se 
+class SparePartListCreateApiView(APIView):
+    def get(self, request):
+        spare_part = SparePart.objects.all()
+        serializer = SparePartSerializer(spare_part, many=True)
+        return Response(serializer.data, status=200)
+    
+    def post(self, request):
+        serializer = SparePartSerializer(data = request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class SparePartDetailAPIView(APIView):
+
+    def get_object(self, id):
+        try:
+            return SparePart.objects.get(id=id)
+        except SparePart.DoesNotExist:
+            return None
+
+    # READ single
+    def get(self, request, id):
+        spare_part = self.get_object(id)
+        if not spare_part:
+            return Response({'msg': 'Not Found'}, status=404)
+
+        serializer = SparePartSerializer(spare_part)
+        return Response(serializer.data)
+
+    # UPDATE
+    def put(self, request, id):
+        spare_part = self.get_object(id)
+        if not spare_part:
+            return Response({'msg': 'Not Found'}, status=404)
+
+        serializer = SparePartSerializer(spare_part, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=400)
+
+    # DELETE
+    def delete(self, request, id):
+        spare_part = self.get_object(id)
+        if not spare_part:
+            return Response({'msg': 'Not Found'}, status=404)
+
+        spare_part.delete()
+        return Response({'msg': 'Deleted successfully'}, status=204)
+
+#custom crud apis without using Viewsets class
+# ViewSet me routers automatic maped nhi hota hai isliye costume method 
+#bana sakte hai action decorator ka use karke
+class VehicalViewSet(ViewSet):      # @action decorator does not work ApiView and View in argument of class 
+    @action(detail=False, methods=['get'])  
+    def get_vehicals(self, request):
+        vehicals = Vehical.objects.all()
+        serializer = VehicalSerializer(vehicals, many=True)
+        return Response(serializer.data)     #rendering json
+    
+    
+    

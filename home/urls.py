@@ -1,7 +1,7 @@
 
 from django.urls import path,include
 from .import views 
-from home.views import CustomeProfilesView,MyView,BookViewSet
+from home.views import CustomeProfilesView,MyView
 
 
 urlpatterns = [

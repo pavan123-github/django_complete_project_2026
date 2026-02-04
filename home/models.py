@@ -30,4 +30,23 @@ class Profile(models.Model):
     birth_data = models.DateField(null=True, blank=True)
     def __str__(self):
         return f'{self.user.username} profile'
+
+
+class SparePart(models.Model):
+    name = models.CharField(max_length=100)
+    company = models.CharField(max_length=100)
+    price = models.IntegerField()
+    vahical_type = models.CharField(max_length=100)
+    def __str__(self):
+        return self.name
+    
+class Vehical(models.Model):
+    name = models.CharField(max_length=100)
+    model_name = models.CharField(max_length=100)
+    year = models.DateField()
+    price = models.FloatField()
+    def __str__(self):
+        return self.name
+       
+    
     
