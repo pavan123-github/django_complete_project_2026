@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User 
 
 class Author(models.Model):
+    id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=30)
     country = models.CharField(max_length=100)
     def __str__(self):
@@ -9,6 +10,7 @@ class Author(models.Model):
     
 #Related to onetomany relationship with using Foreign key Authors + Books
 class Book(models.Model):
+    id = models.BigAutoField(primary_key=True)
     title = models.CharField(max_length=50)
     publication_date = models.DateField()
     author = models.ForeignKey(Author, on_delete=models.CASCADE,related_name='books')
@@ -17,6 +19,7 @@ class Book(models.Model):
 
 # only for pagination
 class State(models.Model):
+    id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=150)
     state_code = models.IntegerField()
     def __str__(self):
@@ -24,6 +27,7 @@ class State(models.Model):
 
 #Using RestApi + OneToOne Relationalship + Pagination    
 class Profile(models.Model):
+    id = models.BigAutoField(primary_key=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(max_length=500, blank=True)
     location = models.CharField(max_length=50, blank=True)
@@ -33,6 +37,7 @@ class Profile(models.Model):
 
 
 class SparePart(models.Model):
+    id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=100)
     company = models.CharField(max_length=100)
     price = models.IntegerField()
@@ -41,6 +46,7 @@ class SparePart(models.Model):
         return self.name
     
 class Vehical(models.Model):
+    id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=100)
     model_name = models.CharField(max_length=100)
     year = models.DateField()
