@@ -12,7 +12,9 @@ from django.views import View  #for using class based view
 from rest_framework.decorators import action  #create custom method inside the class based view
 from rest_framework.viewsets import ViewSet   #create custom method inside the class based view
 from rest_framework import status
-
+#celery 
+from .tasks import delayed_task
+from datetime import datetime
 
 
 # function based view (FBV)
@@ -192,4 +194,7 @@ class VehicalViewSet(ViewSet):      # @action decorator does not work ApiView an
         return Response(serializer.data)     #rendering json
     
     
-    
+# celery background task calling
+def run_task(request):
+    print("TASK RUNNING AT:", datetime.now())
+    return JsonResponse({'msg':'task runned'})

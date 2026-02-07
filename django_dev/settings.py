@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'home.apps.HomeConfig',
     'rest_framework',
     'django_extensions',  #for check all routes in django
+    'django_celery_results',
+    'django_celery_beat',      #schedular accoriding to time
 ]
 
 MIDDLEWARE = [
@@ -149,3 +151,10 @@ REST_FRAMEWORK = {
     ],
     
 }
+
+#celery
+CELERY_BROKER_URL = 'redis://redis:6379/0'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'

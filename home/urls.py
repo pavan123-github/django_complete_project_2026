@@ -1,7 +1,7 @@
 
 from django.urls import path,include
 from .import views 
-from home.views import CustomeProfilesView,MyView
+from home.views import CustomeProfilesView,MyView,run_task
 
 
 urlpatterns = [
@@ -13,6 +13,7 @@ urlpatterns = [
     path('states', views.state_list, name='state_list'),
     path("profiles_detail/", CustomeProfilesView.as_view()), #rendering json 
     path('get_profile/<int:id>/', MyView.as_view(),name='my-view'),  # class based view (CBV) + rendering html template
+    path("run-task/", run_task),
 ]
 
 
