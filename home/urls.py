@@ -1,7 +1,7 @@
 
 from django.urls import path,include
 from .import views 
-from home.views import CustomeProfilesView,MyView,run_task,GarmentsDetail
+from home.views import CustomeProfilesView,MyView,run_task,GarmentsDetail,DeviseListCreateView,DeviseDetailView
 
 
 urlpatterns = [
@@ -16,6 +16,8 @@ urlpatterns = [
     path("run-task/", run_task),
     path('garments/', GarmentsDetail.as_view()),
     path('garments/<int:pk>/', GarmentsDetail.as_view()),
+    path('devises/', DeviseListCreateView.as_view()),  #for mixins 
+    path('devises/<int:pk>/', DeviseDetailView.as_view())
 ]
 
 

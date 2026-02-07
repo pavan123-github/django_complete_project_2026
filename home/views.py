@@ -3,15 +3,15 @@ from django.http import HttpResponse,JsonResponse
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import login,logout,authenticate
-from .models import Author,Book,State,Profile,SparePart,Vehical,Garment
+from .models import Author,Book,State,Profile,SparePart,Vehical,Garment,Devise
 from django.core.paginator import Paginator
 from rest_framework.views import APIView       #for customer profiles view
-from .serializer import ProfileSerializer,BookSerializer,SparePartSerializer,VehicalSerializer,GarmentSerializer   #for customer profiles view
+from .serializer import ProfileSerializer,BookSerializer,SparePartSerializer,VehicalSerializer,GarmentSerializer,DeviseSerializer   #for customer profiles view
 from rest_framework.response import Response   #for customer profiles view 
 from django.views import View  #for using class based view 
 from rest_framework.decorators import action  #create custom method inside the class based view
 from rest_framework.viewsets import ViewSet   #create custom method inside the class based view
-from rest_framework import status
+from rest_framework import status,mixins, generics
 #celery 
 from .tasks import delayed_task
 from datetime import datetime
@@ -237,3 +237,37 @@ class GarmentsDetail(APIView):
                 return Response(serializer.data)
             except:
                 return Response({'msg': 'Not Found'}, status=404)
+
+# mixins in django api
+class DeviseListCreateView(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    generics.GenericAPIView
+):
+    queryset = Devise.objects.all()
+    serializer_class = DeviseSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+class DeviseDetailView(
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.DestroyModelMixin,
+    generics.GenericAPIView
+):
+    queryset = Devise.objects.all()
+    serializer_class = DeviseSerializer
+    lookup_field = 'pk'
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)

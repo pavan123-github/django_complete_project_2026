@@ -62,5 +62,11 @@ class Garment(models.Model):
     def __str__(self):
         return self.name
     
-    
+#for mixins in django
+class Devise(models.Model):
+    name = models.CharField(max_length=100)
+    price = models.FloatField()
+    def __str__(self):
+        return self.name
+
     
