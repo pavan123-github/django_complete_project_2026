@@ -3,10 +3,10 @@ from django.http import HttpResponse,JsonResponse
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import login,logout,authenticate
-from .models import Author,Book,State,Profile,SparePart,Vehical
+from .models import Author,Book,State,Profile,SparePart,Vehical,Garment
 from django.core.paginator import Paginator
 from rest_framework.views import APIView       #for customer profiles view
-from .serializer import ProfileSerializer,BookSerializer,SparePartSerializer,VehicalSerializer   #for customer profiles view
+from .serializer import ProfileSerializer,BookSerializer,SparePartSerializer,VehicalSerializer,GarmentSerializer   #for customer profiles view
 from rest_framework.response import Response   #for customer profiles view 
 from django.views import View  #for using class based view 
 from rest_framework.decorators import action  #create custom method inside the class based view
@@ -198,3 +198,42 @@ class VehicalViewSet(ViewSet):      # @action decorator does not work ApiView an
 def run_task(request):
     print("TASK RUNNING AT:", datetime.now())
     return JsonResponse({'msg':'task runned'})
+
+
+#class based api view
+class GarmentsDetail(APIView):
+    def get(self, request):
+        garments = Garment.objects.all()
+        serializer = GarmentSerializer(garments,many=True)
+        return Response(serializer.data)
+    
+    def post(self, request):
+        serializer = GarmentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def put(self, request, pk, format=None):
+        item = self.get_object(pk)
+        serializer = GarmentSerializer(item, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    # DELETE: Record delete karne ke liye
+    def delete(self, request, pk, format=None):
+        item = self.get_object(pk)
+        item.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    # Helper method for PUT/DELETE to get single object
+    
+    def get(self, request, pk):
+        if pk:
+            try:
+                garment = Garment.objects.get(id=pk)
+                serializer = GarmentSerializer(garment)
+                return Response(serializer.data)
+            except:
+                return Response({'msg': 'Not Found'}, status=404)

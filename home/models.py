@@ -53,6 +53,14 @@ class Vehical(models.Model):
     price = models.FloatField()
     def __str__(self):
         return self.name
-       
+
+# only for class based views
+class Garment(models.Model):
+    name = models.CharField(max_length=100)
+    manufacture_city = models.CharField(max_length=100)
+    fabric = models.CharField(max_length=100)
+    def __str__(self):
+        return self.name
+    
     
     

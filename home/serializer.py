@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Profile,Book,SparePart,Vehical 
+from .models import Profile,Book,SparePart,Vehical,Garment
 
 
 #is serializer class convert python object data into json format and validating data 
@@ -23,4 +23,9 @@ class VehicalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vehical 
         fields = '__all__'
-        
+
+class GarmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Garment
+        fields = '__all__'
+    
